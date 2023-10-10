@@ -1,21 +1,11 @@
 package ui;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import pageObjects.MainPage;
 import pageObjects.OrderPage;
-
 import static org.hamcrest.CoreMatchers.containsString;
 
-@RunWith(Parameterized.class)
-public class OrderPageTests {
-    private WebDriver webDriver;
-    private final String mainPageUrl = "https://qa-scooter.praktikum-services.ru";
+public class OrderPageTests extends BaseTest {
     private final String name, surname, address, metro, phone, date, term, color, comment;
     private final String expectedOrderSuccessText = "Заказ оформлен";
 
@@ -41,26 +31,6 @@ public class OrderPageTests {
         this.comment = comment;
     }
 
-    @Parameterized.Parameters(name = "Оформление заказа. Позитивный сценарий. Пользователь: {0} {1}")
-    public static Object[][] setDataForOrder() {
-        return new Object[][] {
-                {"Клава", "Птичкина", "Москва, ул. Дорожная, д. 12, кв. 34", "Сокол", "81234567890", "01.05.2023", "четверо суток", "чёрный жемчуг", "Коммент!"},
-                {"Иван ", "Петров", "Москва, ул. Скобелевская, д. 26, кв. 1", "Улица Скобелевская", "89876543210", "21.05.2023", "трое суток", "серая безысходность", "Привезите в первой половине дня"},
-        };
-    }
-
-    @Before
-    public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "путь_к_вашему_chromedriver"); // Укажите реальный путь к драйверу
-        this.webDriver = new ChromeDriver();
-        this.webDriver.get(mainPageUrl);
-    }
-
-    @After
-    public void tearDown() {
-        this.webDriver.quit();
-    }
-
     @Test
     public void orderWithHeaderButtonWhenSuccess() {
         MainPage mainPage = new MainPage(this.webDriver);
@@ -84,6 +54,8 @@ public class OrderPageTests {
 
         mainPage.clickOnCookieAcceptButton();
         mainPage.clickOrderButtonBody();
+        orderPage.waitForLoadForm(); // Ожидание загрузки формы ввода данных
+
         makeOrder(orderPage);
 
         MatcherAssert.assertThat(
@@ -94,8 +66,6 @@ public class OrderPageTests {
     }
 
     private void makeOrder(OrderPage orderPage) {
-        orderPage.waitForLoadForm();
-
         orderPage.setName(this.name);
         orderPage.setSurname(this.surname);
         orderPage.setAddress(this.address);
