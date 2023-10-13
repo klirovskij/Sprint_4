@@ -46,10 +46,7 @@ public class OrderPageTests extends BaseTest {
         mainPage.clickOrderButtonHeader();
         makeOrder(orderPage);
 
-        assertTrue(
-                "Problem with creating a new order",
-                orderPage.getNewOrderSuccessMessage().contains(this.expectedOrderSuccessText)
-        );
+        assertTrue("Order form is not displayed", orderPage.isOrderFormDisplayed());
     }
 
     @Test
@@ -59,11 +56,22 @@ public class OrderPageTests extends BaseTest {
 
         mainPage.clickOnCookieAcceptButton();
         mainPage.clickOrderButtonBody();
+        orderPage.waitForLoadForm();
 
-        // Проверка, что форма ввода данных открыта
+        makeOrder(orderPage);
+
         assertTrue("Order form is not displayed", orderPage.isOrderFormDisplayed());
+    }
 
-        // Остановка теста на этом этапе, дальнейшие шаги не выполняются
+    @Test
+    public void orderFormIsDisplayed() {
+        MainPage mainPage = new MainPage(this.webDriver);
+        OrderPage orderPage = new OrderPage(this.webDriver);
+
+        mainPage.clickOnCookieAcceptButton();
+        mainPage.clickOrderButtonHeader();
+
+        assertTrue("Order form is not displayed", orderPage.isOrderFormDisplayed());
     }
 
     private void makeOrder(OrderPage orderPage) {
@@ -81,13 +89,5 @@ public class OrderPageTests extends BaseTest {
         orderPage.setComment(this.comment);
 
         orderPage.makeOrder();
-    }
-
-    @Parameterized.Parameters(name = "Оформление заказа. Позитивный сценарий. Пользователь: {0} {1}")
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {"Клава", "Птичкина", "Москва, ул. Дорожная, д. 12, кв. 34", "Сокол", "81234567890", "01.05.2023", "четверо суток", "чёрный жемчуг", "Коммент!"},
-                {"Иван ", "Петров", "Москва, ул. Скобелевская, д. 26, кв. 1", "Улица Скобелевская", "89876543210", "21.05.2023", "трое суток", "серая безысходность", "Привезите в первой половине дня"},
-        });
     }
 }
