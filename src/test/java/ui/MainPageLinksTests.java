@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pageObjects.MainPage;
+import pageobjects.MainPage;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,7 +17,7 @@ public class MainPageLinksTests {
     @Before
     public void setUp() {
         // Установка пути к драйверу Chrome
-        System.setProperty("webdriver.chrome.driver", "путь_к_вашему_chromedriver"); // Замените на реальный путь к драйверу
+        System.setProperty("webdriver.chrome.driver", "/Users/hoodozhnik/Desktop/Практикум \"Автоматизация тестирования\"/chromedriver_mac_arm64"); // Замените на реальный путь к драйверу
 
         // Создание экземпляра WebDriver
         this.webDriver = new ChromeDriver();

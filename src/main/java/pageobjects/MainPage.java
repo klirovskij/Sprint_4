@@ -1,4 +1,4 @@
-package pageObjects;
+package pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -42,8 +42,8 @@ public class MainPage {
     }
 
     /**
-     * Метод для ожидания загрузки элемента аккордеона
-     * @param index порядковый номер элемента аккордеона
+     * Метод для ожидания загрузки элемента
+     * @param index порядковый номер элемента
      */
     public void waitForLoadItem(int index) {
         new WebDriverWait(this.webDriver, 3)
@@ -58,8 +58,8 @@ public class MainPage {
     }
 
     /**
-     * Метод для получения текста на заголовке блока в аккордеоне
-     * @param index порядковый номер элемента аккордеона
+     * Метод для получения текста на заголовке блока в тесте
+     * @param index порядковый номер элемента
      * @return текст из заголовка
      */
     public String getAccordionHeaderText(int index) {
@@ -67,7 +67,7 @@ public class MainPage {
     }
 
     /**
-     * Методя для получения текста из раскрывающегося блока в аккордеоне
+     * Методя для получения текста из раскрывающегося блока
      * @param index порядковый номер элемента аккордеона
      * @return текст из раскрывающегося блока
      */
@@ -76,16 +76,16 @@ public class MainPage {
     }
 
     /**
-     * Метод для нажатия на заголовок блока в аккордеоне
-     * @param index порядковый номер элемента аккордеона
+     * Метод для нажатия на заголовок блока
+     * @param index порядковый номер элемента
      */
     public void clickAccordionHeader(int index) {
         this.webDriver.findElements(this.accordionHeaders).get(index).click();
     }
 
     /**
-     * Метод для проверки раскрытия блока аккордеона
-     * @param index порядковый номер элемента аккордеона
+     * Метод для проверки раскрытия блока
+     * @param index порядковый номер элемента
      * @return флаг раскрытия
      */
     public boolean isAccordionItemDisplayed(int index) {
