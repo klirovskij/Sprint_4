@@ -1,3 +1,5 @@
+package ui;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -9,6 +11,14 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
+
+@Parameterized.Parameters
+public static Collection<Object[]> testData() {
+        return Arrays.asList(new Object[][] {
+        {"Клава", "Птичкина", "Москва, ул. Дорожная, д. 12, кв. 34", "Сокол", "81234567890", "01.05.2023", "четверо суток", "чёрный жемчуг", "Коммент!"},
+        {"Иван", "Петров", "Москва, ул. Скобелевская, д. 26, кв. 1", "Улица Скобелевская", "89876543210", "21.05.2023", "трое суток", "серая безысходность", "Привезите в первой половине дня"},
+        });
+        }
 
 @RunWith(Parameterized.class)
 public class OrderPageTests extends BaseTest {
@@ -90,4 +100,5 @@ public class OrderPageTests extends BaseTest {
 
         orderPage.makeOrder();
     }
+
 }
