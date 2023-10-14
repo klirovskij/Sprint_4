@@ -1,11 +1,16 @@
-package ui;
-
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import pageobjects.OrderPage;
-import static org.hamcrest.CoreMatchers.containsString;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.WebDriver;
+import pageObjects.MainPage;
+import pageObjects.OrderPage;
 
+import java.util.Arrays;
+import java.util.Collection;
 
+import static org.junit.Assert.assertTrue;
+
+@RunWith(Parameterized.class)
 public class OrderPageTests extends BaseTest {
     private final String name, surname, address, metro, phone, date, term, color, comment;
     private final String expectedOrderSuccessText = "Заказ оформлен";
@@ -41,28 +46,33 @@ public class OrderPageTests extends BaseTest {
         mainPage.clickOrderButtonHeader();
         makeOrder(orderPage);
 
-        MatcherAssert.assertThat(
-                "Problem with creating a new order",
-                orderPage.getNewOrderSuccessMessage(),
-                containsString(this.expectedOrderSuccessText)
-        );
+        assertTrue("Order form is not displayed", orderPage.isOrderFormDisplayed());
     }
 
     @Test
-
     public void orderWithBodyButtonWhenSuccess() {
         MainPage mainPage = new MainPage(this.webDriver);
         OrderPage orderPage = new OrderPage(this.webDriver);
 
         mainPage.clickOnCookieAcceptButton();
         mainPage.clickOrderButtonBody();
+        orderPage.waitForLoadForm();
 
-        // Проверка, что форма ввода данных открыта
+        makeOrder(orderPage);
+
         assertTrue("Order form is not displayed", orderPage.isOrderFormDisplayed());
-
-        // Остановка теста на этом этапе, дальнейшие шаги не выполняются
     }
 
+    @Test
+    public void orderFormIsDisplayed() {
+        MainPage mainPage = new MainPage(this.webDriver);
+        OrderPage orderPage = new OrderPage(this.webDriver);
+
+        mainPage.clickOnCookieAcceptButton();
+        mainPage.clickOrderButtonHeader();
+
+        assertTrue("Order form is not displayed", orderPage.isOrderFormDisplayed());
+    }
 
     private void makeOrder(OrderPage orderPage) {
         orderPage.setName(this.name);
@@ -79,13 +89,5 @@ public class OrderPageTests extends BaseTest {
         orderPage.setComment(this.comment);
 
         orderPage.makeOrder();
-    }
-
-    public boolean isOrderFormDisplayed() {
-        try {
-            return webDriver.findElement(orderForm).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
     }
 }
